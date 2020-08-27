@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var cleanCss = require('gulp-clean-css');
 var rename = require('gulp-rename');
+var debug = require('gulp-debug');
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -10,16 +11,17 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
+
+  return gulp.src('/scss/app.scss')
+    .pipe(debug())
     .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
     .pipe(cleanCss({
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
+
 });
 
 gulp.task('watch', ['sass'], function() {
